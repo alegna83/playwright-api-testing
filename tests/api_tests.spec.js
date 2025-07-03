@@ -1,0 +1,64 @@
+import { test, expect } from "@playwright/test"
+
+
+test("Demo API DELETE Request", async ({ request }) => {
+  const response = await request.delete("https://reqres.in/api/users/2", {
+    headers: {
+      "x-api-key": "reqres-free-v1",
+    }
+  })
+  expect(response.status()).toBe(204)
+})
+
+
+test("Demo API PUT Request", async ({ request }) => {
+  const response = await request.put("https://reqres.in/api/users/2", {
+    headers: {
+      "x-api-key": "reqres-free-v1",
+    },
+    data: {
+      name: "morpheus",
+      job: "zion resident"
+    },
+  })
+  expect(response.status()).toBe(200)
+
+  const text = await response.text();
+  expect(text).toContain('morpheus');
+
+  console.log(await response.json());
+})
+
+test("Demo API POST Request", async ({ request }) => {
+  const response = await request.post("https://reqres.in/api/users", {
+    headers: {
+      "x-api-key": "reqres-free-v1",
+    },
+    data: {
+      name: "morpheus",
+      job: "leader",
+    },
+  })
+  expect(response.status()).toBe(201)
+
+  const text = await response.text();
+  expect(text).toContain('morpheus');
+
+  console.log(await response.json());
+})
+
+test("API GET Request", async ({ request }) => {
+  //const response = await request.get("https://reqres.in/api/users?page=2")
+  const response = await request.get("https://reqres.in/api/users/2", {
+    headers: {
+      "x-api-key": "reqres-free-v1",
+    }
+  })
+  expect(response.status()).toBe(200)
+
+  const text = await response.text()
+  //expect(text).toContain("Lindsay")
+  expect(text).toContain("Janet")
+
+  console.log(await response.json)
+})
